@@ -1,0 +1,43 @@
+.code {
+  height: 100vh;
+  width: 47vw;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0px 0px 7px 7px rgb(148, 144, 144);
+}
+
+#ide-mr {
+  margin: 5px 0.5rem;
+}
+
+#terminal-mr {
+  margin: 5px 0.5rem;
+}
+
+.flex {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.main-terminal {
+  border-radius: 5px !important;
+  background-color: white;
+  text-align: left;
+  height: 100vh;
+  width: 47vw;
+  box-shadow: 0px 0px 7px 7px rgb(148, 144, 144);
+}
+
+.main-terminal-content {
+  padding: 10px !important;
+  background-color: rgb(216, 216, 216) !important;
+}
+
+.text-black {
+  color: #141414 !important;
+}
+
+.background-color {
+  background-color: gray;
+}
