@@ -31,11 +31,11 @@
 
 .main-terminal-content {
   padding: 10px !important;
-  background-color: rgb(216, 216, 216) !important;
+  background-color: black !important;
 }
 
-.text-black {
-  color: #141414 !important;
+.text-white {
+  color: white !important;
 }
 
 .background-color {
