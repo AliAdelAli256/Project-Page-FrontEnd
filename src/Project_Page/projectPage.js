@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Editor, { useMonaco } from "@monaco-editor/react";
+import Editor from "@monaco-editor/react";
 import Terminal from "react-console-emulator";
 import ReactTooltip from "react-tooltip";
 import { Drawer } from '@material-ui/core';
@@ -10,7 +10,7 @@ import TreeItem from "@material-ui/lab/TreeItem";
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Collapse } from 'reactstrap';
 import "./projectPage.css";
-import "./Sidebar.css";
+
 
 const drawerWidth = 180;
 
@@ -27,49 +27,51 @@ const useStyles = makeStyles((theme) => ({
     width: drawerWidth,
     position: 'absolute',
     left: '42.8px',
-    top: '63px',
+    top: '62px',
     overflow: 'hidden',
-    height: '100%',
+    height: '101%',
   },
 }));
 
-function Ide(props) {
+const projectPage = () => {
 
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
-  const handleDrawerOpen = () => {
+  const collapseTerminal = () => {
+    setIsOpen(!isOpen)
+    if (isOpen === true) {
+      document.getElementById('collapse').innerHTML = "<li class='fas fa-angle-up'></li>";
+      document.getElementById('collapse').style.right = '25px';
+      document.getElementById('collapse').style.top = '42rem';
+    } else if (isOpen === false) {
+      document.getElementById('collapse').innerHTML = "<li class='fas fa-angle-down'></li>";
+      document.getElementById('collapse').style.right = '25px';
+      document.getElementById('collapse').style.top = '26.5rem';
+    }
+  };
+
+  const handleDrawer = () => {
     setOpen(!open);
     if (open === false) {
       document.getElementById('ide-mr').style.marginLeft = '180px';
+      document.getElementById('ide-mr').style.width = '82vw';
+      document.getElementById('terminal-mr').style.marginLeft = '180px';
+      document.getElementById('terminal-mr').style.width = '82vw';
     }
     else if (open === true) {
-      document.getElementById('ide-mr').style.marginLeft = '0px';
+      document.getElementById('ide-mr').style.marginLeft = '10px';
+      document.getElementById('ide-mr').style.width = '94vw';
+      document.getElementById('terminal-mr').style.marginLeft = '10px';
+      document.getElementById('terminal-mr').style.width = '94vw';
     }
-
   };
-
-  function MinusSquare(props) {
-    return (
-      <SvgIcon fontSize="inherit" style={{ width: 14, height: 14 }} {...props}>
-        {/* tslint:disable-next-line: max-line-length */}
-        <path d="M22.047 22.074v0 0-20.147 0h-20.12v0 20.147 0h20.12zM22.047 24h-20.12q-.803 0-1.365-.562t-.562-1.365v-20.147q0-.776.562-1.351t1.365-.575h20.147q.776 0 1.351.575t.575 1.351v20.147q0 .803-.575 1.365t-1.378.562v0zM17.873 11.023h-11.826q-.375 0-.669.281t-.294.682v0q0 .401.294 .682t.669.281h11.826q.375 0 .669-.281t.294-.682v0q0-.401-.294-.682t-.669-.281z" />
-      </SvgIcon>
-    );
-  }
-
-  function PlusSquare(props) {
-    return (
-      <SvgIcon fontSize="inherit" style={{ width: 14, height: 14 }} {...props}>
-        {/* tslint:disable-next-line: max-line-length */}
-        <path d="M22.047 22.074v0 0-20.147 0h-20.12v0 20.147 0h20.12zM22.047 24h-20.12q-.803 0-1.365-.562t-.562-1.365v-20.147q0-.776.562-1.351t1.365-.575h20.147q.776 0 1.351.575t.575 1.351v20.147q0 .803-.575 1.365t-1.378.562v0zM17.873 12.977h-4.923v4.896q0 .401-.281.682t-.682.281v0q-.375 0-.669-.281t-.294-.682v-4.896h-4.923q-.401 0-.682-.294t-.281-.669v0q0-.401.281-.682t.682-.281h4.923v-4.896q0-.401.294-.682t.669-.281v0q.401 0 .682.281t.281.682v4.896h4.923q.401 0 .682.281t.281.682v0q0 .375-.281.669t-.682.294z" />
-      </SvgIcon>
-    );
-  }
 
   const options = {
     language: "javascript",
+    automaticLayout: true,
     selectOnLineNumbers: true,
     renderIndentGuides: true,
     colorDecorators: true,
@@ -83,12 +85,13 @@ function Ide(props) {
 
   const errorText = "Please enter appropriate command, type help to know more.";
 
+
   return (
-    <div className="flex">
+    <div className="d-flex flex-row">
 
-      <div class="btn-group-vertical justify-content-start bg-secondary" role="group" aria-label="Basic example" style={{ padding: '2px' }}>
+      <div class="btn-group-vertical justify-content-start bg-secondary" role="group" aria-label="Basic example" style={{ padding: '2px' , height: '100vh'}}>
 
-        <button onClick={handleDrawerOpen} data-tip data-for="fileSystem" type="button" class="btn btn-secondary mb-1" style={{ maxHeight: '40px', width: '40px', borderRadius: '5px' /*, boxShadow : '0px 0px 3px 3px gray'*/ }}><i class="fas fa-copy"></i></button>
+        <button onClick={handleDrawer} data-tip data-for="fileSystem" type="button" class="btn btn-secondary mb-1" style={{ maxHeight: '40px', width: '40px', borderRadius: '5px' /*, boxShadow : '0px 0px 3px 3px gray'*/ }}><i class="fas fa-copy"></i></button>
         <ReactTooltip id="fileSystem" place="top" effect="solid" backgroundColor="white" textColor="black">File System</ReactTooltip>
 
         <button data-tip data-for="communication" type="button" class="btn btn-secondary mb-1 " data-toggle="tooltip" data-placement="right" title="Communication" style={{ maxHeight: '40px', width: '40px', borderRadius: '5px' }}><i class="fas fa-comments"></i></button>
@@ -111,6 +114,7 @@ function Ide(props) {
           paper: classes.drawerPaper,
         }}
         backgroundColor="rgb(108, 117, 125);"
+        style={{ zIndex: '1' }}
       >
         <div className="sidebar">
           <TreeView
@@ -119,7 +123,7 @@ function Ide(props) {
             defaultExpandIcon={<ChevronRightIcon />}
           >
             <TreeItem nodeId="1" label="public">
-              <TreeItem nodeId="2" label="index.html" style={{color: '#000'}}/>
+              <TreeItem nodeId="2" label="index.html" style={{ color: '#000' }} />
               <TreeItem nodeId="3" label="manifest.json" />
               <TreeItem nodeId="4" label="logo.png" />
             </TreeItem>
@@ -136,28 +140,39 @@ function Ide(props) {
         </div>
       </Drawer>
 
-      <div type="text" id="ide-mr" className="code">
-        <Editor
-          theme="vs-dark"
-          options={options}
-        />
+
+      <div className="d-flex flex-column">
+        <button id="collapse" onClick={collapseTerminal} type="button" class="btn btn-secondary btn-sm collapse-button" style={{transition: 'ease-in-out 0.3s'}}><i class="fas fa-angle-down"></i></button>
       </div>
 
-      <div id="terminal-mr">
-        <Terminal
-          errorText={errorText}
-          ignoreCommandCase
-          noEchoBack
-          promptLabel={">"}
-          className="main-terminal"
-          contentClassName="main-terminal-content"
-          promptLabelClassName="text-white"
-          inputClassName="text-white"
-        />
+
+      <div className="d-flex flex-column">
+        <div type="text" id="ide-mr" className="editor">
+          <Editor
+            theme="vs-dark"
+            options={options}
+          />
+        </div>
+
+        <Collapse isOpen={isOpen}>
+          <div id="terminal-mr">
+            <Terminal
+              errorText={errorText}
+              ignoreCommandCase
+              noEchoBack
+              promptLabel={">"}
+              className="main-terminal"
+              contentClassName="main-terminal-content"
+              promptLabelClassName="text-white"
+              inputClassName="text-white"
+            />
+          </div>
+        </Collapse>
+
       </div>
 
     </div>
   );
 }
 
-export default Ide;
+export default projectPage;
